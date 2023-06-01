@@ -1,0 +1,75 @@
+#app .eh-base-input {
+    font-size: 14px;
+    border: var(--eh-input-border-size) solid var(--eh-primary);
+    border-radius: var(--eh-input-radius);
+    padding: 3px 0px 3px 15px;
+    min-height: 40px;
+    width: 100%;
+    background: white;
+    margin-top: 20px;
+    padding-right: 25px;
+}
+
+#app .eh-base-input:invalid, #app .eh-base-input.invalid-input {
+    border-color: red;
+}
+
+#app .eh-base-input:disabled {
+    background: var(--eh-disabled-color);
+}
+
+#app input.eh-base-input~.eh-base-input-floating-label,
+#app input:not(:focus).eh-base-input~.eh-base-input-floating-label {
+    position: relative;
+    pointer-events: none;
+    left: 10px;
+    top: -30px;
+    bottom: 10px;
+    transition: 0.2s ease all;
+    color: var(--eh-primary);
+}
+
+#app input:focus~.eh-base-input-floating-label,
+#app input:not(:focus):not(:placeholder-shown)~.eh-base-input-floating-label {
+    top: -60px;
+    bottom: 10px;
+    left: 0px;
+    font-size: 13px;
+    padding: 2px;
+    opacity: 1;
+    color: var(--eh-primary);
+}
+
+#app input:not(:focus).eh-base-input.with-label::-webkit-input-placeholder {
+    color: transparent;
+}
+
+#app .eh-base-input.without-float.with-label {
+    margin-top: 0px;
+}
+
+#app .eh-base-input-label-without-float {
+    font-size: 13px;
+    padding: 2px;
+    color: var(--eh-primary);
+}
+
+#app input.eh-base-input.with-label~.eh-base-input-desc-error-box {
+    margin-top: -20px;
+}
+
+#app .eh-base-input-desc-error-box .eh-base-input-description {
+    position: relative;
+    left: 10px;
+    pointer-events: none;
+    font-size: 13px;
+    color: var(--eh-primary);
+}
+
+#app .eh-base-input-desc-error-box .eh-base-input-error-text {
+    color: red;
+    font-size: 13px;
+    position: relative;
+    left: 10px;
+    pointer-events: none;
+}

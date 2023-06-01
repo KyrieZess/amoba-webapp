@@ -1,0 +1,8 @@
+@import './component.css';
+
+:root{
+    --eh-input-border-size: 3px;
+    --eh-primary: #668293;
+    --eh-input-radius: 10px;
+    --eh-disabled-color: lightgrey;
+}
