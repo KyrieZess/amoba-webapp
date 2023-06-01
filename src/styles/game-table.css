@@ -1,0 +1,28 @@
+div#game-table {
+    width: fit-content;
+    max-width: 100vw;
+    overflow: auto;
+    margin: auto;
+    border: solid;
+}
+
+div#game-table .square {
+    border: solid 1px;
+    height: 50px;
+    width: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+div#game-table .square .game-mark{
+    height: fit-content;
+    font-size: 30px;
+}
+
+div#zoom-button {
+    margin: auto;
+    width: fit-content;
+    padding: 10px;
+}
