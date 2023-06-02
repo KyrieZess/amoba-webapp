@@ -1,12 +1,5 @@
 <template>
   <div v-if="Table != null">
-    <div id="zoom-button">
-      <b-button @click="zoomIn">Nagyítás</b-button>
-      <b-button @click="reset">Visszaállítás</b-button>
-      <b-button :disabled="fontSize <= 15" @click="zoomOut"
-        >Kicsinyítés</b-button
-      >
-    </div>
     <div id="game-table">
       <table>
         <tr v-for="(y, yIndex) in Table" :key="'y-' + yIndex">
@@ -22,6 +15,13 @@
           </td>
         </tr>
       </table>
+    </div>
+    <div id="zoom-button">
+      <b-button @click="zoomIn">Nagyítás</b-button>
+      <b-button @click="reset">Visszaállítás</b-button>
+      <b-button :disabled="fontSize <= 15" @click="zoomOut"
+        >Kicsinyítés</b-button
+      >
     </div>
   </div>
 </template>
@@ -39,6 +39,7 @@ export default {
     };
   },
   methods: {
+    // reset the zoom setting to the default values
     reset() {
       this.fieldSize = 50;
       this.fontSize = 30;
