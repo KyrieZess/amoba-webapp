@@ -24,6 +24,8 @@ import BaseComponents from './components/baseComponents'
 // Add for globally using the registered components
 Vue.use(BaseComponents);
 
+Vue.prototype.$baseUrl = "https://dummyjson.com/"
+
 new Vue({
   router,
   store,
