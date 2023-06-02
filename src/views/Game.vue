@@ -13,10 +13,15 @@
       :Table="playersSteps"
       @SelectSquare="selectSquare"
     />
-    <b-modal v-model="showWinnerModal" hide-footer hide-header>
-      <p>WINNER {{ winnerPlayer }}</p>
-      <b-button>Játék újra kezdése</b-button>
-    </b-modal>
+    <WinnerModal
+      :Visible="showWinnerModal"
+      :PlayersCount="PlayersCount"
+      :SkippedPlayersCount="SkippedPlayersCount"
+      :TurnPlayerIndex="turnPlayerIndex"
+      :WinnerPlayerMark="winnerPlayer"
+      @GameContinuous="gameContinuous"
+      @NewGame="newGame"
+    />
   </div>
 </template>
 
@@ -40,7 +45,34 @@ export default {
       winnerMarkPieces: 0,
     };
   },
+  computed: {
+    PlayersCount() {
+      if (this.players == null) {
+        return 0;
+      }
+      return this.players.length;
+    },
+    SkippedPlayersCount() {
+      if (this.skippedPlayersIndex == null) {
+        return 0;
+      }
+      return this.skippedPlayersIndex.length;
+    },
+  },
   methods: {
+    newGame() {
+      this.$refs.gameSetting.restartGame();
+      this.winnerPlayer = null;
+      this.players = null;
+      this.turnPlayerIndex = 0;
+      this.playersSteps = null;
+      this.skippedPlayersIndex = null;
+      this.showWinnerModal = false;
+    },
+    gameContinuous() {
+      this.turnPlayerIndex = this.setNextPlayer(this.turnPlayerIndex + 1);
+      this.showWinnerModal = false;
+    },
     startTheGame(setting) {
       this.players = setting.Players;
       this.winnerMarkPieces = setting.WinnerMarkPieces;
