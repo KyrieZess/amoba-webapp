@@ -1,6 +1,13 @@
 <template>
   <div>
-    <GameSetting @StartTheGame="startTheGame" @Restart="restart" />
+    <GameSetting
+      ref="gameSetting"
+      @StartTheGame="startTheGame"
+      @Restart="restart"
+    />
+    <div v-if="players != null && players.length > 0">
+      {{ players[turnPlayerIndex] }}
+    </div>
     <GameTable
       ref="gameTable"
       :Table="playersSteps"
@@ -16,10 +23,11 @@
 <script>
 import GameTable from "../components/game/GameTable.vue";
 import GameSetting from "../components/game/GameSetting.vue";
+import WinnerModal from "../components/game/WinnerModal.vue";
 
 export default {
   name: "Game",
-  components: { GameTable, GameSetting },
+  components: { GameTable, GameSetting, WinnerModal },
   data() {
     return {
       showWinnerModal: false,
@@ -73,11 +81,10 @@ export default {
           return;
         }
         // if has not winner then step the next player who stay in the game yet
-        this.setNextPlayer(this.turnPlayerIndex + 1);
+        this.turnPlayerIndex = this.setNextPlayer(this.turnPlayerIndex + 1);
       }
     },
     setNextPlayer(index) {
-      console.log(this.skippedPlayersIndex);
       if (index >= this.players.length) {
         // step the first if the previous player was the last
         index = 0;
@@ -87,10 +94,10 @@ export default {
         this.skippedPlayersIndex != null &&
         this.skippedPlayersIndex.includes(index)
       ) {
-        this.setNextPlayer(index + 1);
+        index = this.setNextPlayer(index + 1);
       }
 
-      this.turnPlayerIndex = index;
+      return index;
     },
     checkWinner(x, y) {
       var leftUpDiagonal = [];
@@ -102,7 +109,7 @@ export default {
       var yIndex = -1 * (this.winnerMarkPieces - 1);
 
       const xTableLength = this.playersSteps[0].length - 1;
-      const yTableLength = this.playersSteps.length;
+      const yTableLength = this.playersSteps.length - 1;
 
       // check the place around the current step
       for (let i = 0; i < xTableLength; i++) {
@@ -187,10 +194,14 @@ export default {
     onWinner(winner) {
       this.showWinnerModal = true;
       this.winnerPlayer = winner;
-      if (this.skippedPlayersIndex == null) {
-        this.skippedPlayersIndex = [];
+      if (this.players.length > 2) {
+        if (this.skippedPlayersIndex == null) {
+          this.skippedPlayersIndex = [];
+        }
+        this.skippedPlayersIndex.push(
+          this.players.findIndex((x) => x == winner)
+        );
       }
-      this.skippedPlayersIndex.push(this.players.findIndex((x) => x == winner));
     },
   },
 };
