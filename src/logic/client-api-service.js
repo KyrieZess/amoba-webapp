@@ -22,7 +22,7 @@ export const ClientApiService = {
             });
         }
         try {
-            // create fetch object
+            // create fetch object with trimmed body
             const fetchOptions = {
                 method: method,
                 headers: {
