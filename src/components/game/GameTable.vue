@@ -1,5 +1,34 @@
 <template>
   <div v-if="Table != null">
+    <b-container id="zoom-button">
+      <b-row>
+        <b-col>
+          <b-button v-b-tooltip.hover="'Nagyítás'"
+            @click="zoomIn"
+            size="sm"
+            variant="info"
+          >
+            <b-icon icon="zoom-in" />
+          </b-button>
+        </b-col>
+        <b-col>
+          <b-button @click="reset" size="sm" v-b-tooltip.hover="'Méret visszaállítása alapértelmezett helyzetbe'">
+            <b-icon icon="arrow-counterclockwise" />
+          </b-button>
+        </b-col>
+        <b-col>
+          <b-button
+            :disabled="fontSize <= 15"
+            @click="zoomOut"
+            size="sm"
+            variant="info"
+            v-b-tooltip.hover="'Kicsinyítés'"
+          >
+            <b-icon icon="zoom-out" />
+          </b-button>
+        </b-col>
+      </b-row>
+    </b-container>
     <div id="game-table">
       <table>
         <tr v-for="(y, yIndex) in Table" :key="'y-' + yIndex">
@@ -15,13 +44,6 @@
           </td>
         </tr>
       </table>
-    </div>
-    <div id="zoom-button">
-      <b-button @click="zoomIn">Nagyítás</b-button>
-      <b-button @click="reset">Visszaállítás</b-button>
-      <b-button :disabled="fontSize <= 15" @click="zoomOut"
-        >Kicsinyítés</b-button
-      >
     </div>
   </div>
 </template>
