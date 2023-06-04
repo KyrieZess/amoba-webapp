@@ -3,10 +3,19 @@
     <GameSetting
       ref="gameSetting"
       @StartTheGame="startTheGame"
-      @Restart="restart"
+      @Restart="clearGameTable"
     />
-    <div v-if="players != null && players.length > 0">
-      {{ players[turnPlayerIndex] }}
+    <div v-if="gameSetting != null" class="restart-game-button">
+      <b-button variant="warning" @click="restartGame">
+        <b-icon icon="arrow-clockwise" />
+        Játék újraindtása
+      </b-button>
+    </div>
+    <div v-if="players != null && players.length > 0" class="player-turn">
+      Következő játékos:
+      <b>
+        {{ turnPlayerIndex + 1 }}. játékos ( {{ players[turnPlayerIndex] }} )
+      </b>
     </div>
     <GameTable
       ref="gameTable"
@@ -15,12 +24,12 @@
     />
     <WinnerModal
       :Visible="showWinnerModal"
-      :PlayersCount="PlayersCount"
-      :SkippedPlayersCount="SkippedPlayersCount"
+      :Players="players"
+      :SkippedPlayers="skippedPlayersIndex"
       :TurnPlayerIndex="turnPlayerIndex"
       :WinnerPlayerMark="winnerPlayer"
       @GameContinuous="gameContinuous"
-      @NewGame="newGame"
+      @NewGame="restartGame"
     />
   </div>
 </template>
@@ -41,47 +50,35 @@ export default {
       skippedPlayersIndex: null,
       turnPlayerIndex: 0,
       playersSteps: null,
-      winnerCoordinates: [],
       winnerMarkPieces: 0,
+      gameSetting: null,
     };
   },
-  computed: {
-    PlayersCount() {
-      if (this.players == null) {
-        return 0;
-      }
-      return this.players.length;
-    },
-    SkippedPlayersCount() {
-      if (this.skippedPlayersIndex == null) {
-        return 0;
-      }
-      return this.skippedPlayersIndex.length;
-    },
-  },
   methods: {
-    newGame() {
-      this.$refs.gameSetting.restartGame();
-      this.winnerPlayer = null;
-      this.players = null;
-      this.turnPlayerIndex = 0;
-      this.playersSteps = null;
-      this.skippedPlayersIndex = null;
-      this.showWinnerModal = false;
-    },
     gameContinuous() {
       this.turnPlayerIndex = this.setNextPlayer(this.turnPlayerIndex + 1);
       this.showWinnerModal = false;
     },
     startTheGame(setting) {
-      this.players = setting.Players;
-      this.winnerMarkPieces = setting.WinnerMarkPieces;
-      this.loadTheTable(setting.TableSize);
+      this.gameSetting = setting;
+      this.startGame();
     },
-    restart() {
+    restartGame() {
+      this.showWinnerModal = false;
+      this.turnPlayerIndex = 0;
+      this.skippedPlayersIndex = null;
+      this.startGame();
+    },
+    startGame() {
+      this.players = this.gameSetting.Players;
+      this.winnerMarkPieces = this.gameSetting.WinnerMarkPieces;
+      this.loadTheTable(this.gameSetting.TableSize);
+    },
+    clearGameTable() {
       this.players = null;
       this.playersSteps = null;
       this.winnerMarkPieces = null;
+      this.gameSetting = null;
     },
     loadTheTable(tableSize) {
       // create x axis line

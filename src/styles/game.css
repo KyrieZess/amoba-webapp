@@ -1,0 +1,10 @@
+.player-turn {
+    width: fit-content;
+    margin: auto;
+    padding: 10px;
+}
+
+.restart-game-button {
+    text-align: center;
+    padding-top: 20px;
+}
