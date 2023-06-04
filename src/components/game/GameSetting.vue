@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-container v-if="!gameIsRun">
+    <b-container v-if="settingIsOpen">
       <b-row class="text-center">
         <b-col cols="12"> Pálya beállításai </b-col>
       </b-row>
@@ -9,6 +9,7 @@
           <eh-input
             id="table-x-size"
             label="Pálya szélessége"
+            :required="true"
             v-model="yAxisLength"
             type="number"
             :state="
@@ -16,14 +17,17 @@
               yAxisLength == 0 ||
               yAxisLength >= markPieces
             "
+            error="A pálya túl kicsi ahhoz, hogy a nyertes darabszámú jel elférjen. Adjon meg nagyobb tábla méretet vagy állítson kisebb nyertes darabszámot."
             :min="5"
             :max="100"
+            description="A mező minimum 5, maximum 100 értéket vehet fel"
           />
         </b-col>
         <b-col cols="12" md="4">
           <eh-input
             id="table-y-size"
             label="Pálya magassága"
+            :required="true"
             v-model="xAxisLength"
             type="number"
             :state="
@@ -31,14 +35,17 @@
               xAxisLength == 0 ||
               xAxisLength >= markPieces
             "
+            error="A pálya túl kicsi ahhoz, hogy a nyertes darabszámú jel elférjen. Adjon meg nagyobb tábla méretet vagy állítson kisebb nyertes darabszámot."
             :min="5"
             :max="100"
+            description="A mező minimum 5, maximum 100 értéket vehet fel"
           />
         </b-col>
         <b-col cols="12" md="4">
           <eh-input
             id="winner-mark-pieces"
             label="Nyertes darabszám"
+            :required="true"
             v-model="markPieces"
             type="number"
             :state="
@@ -48,22 +55,27 @@
               yAxisLength == 0 ||
               (xAxisLength >= markPieces && yAxisLength >= markPieces)
             "
+            error="A nyertes darabszám túl sok, ahhoz hogy a pályán elférjen! Adjon meg kisebb nyertes darabszámot vagy a pályát állítsa nagyobbra."
             :min="3"
             :max="50"
+            description="A mező minimum 3, maximum 50 értéket vehet fel"
           />
         </b-col>
       </b-row>
-      <b-row class="text-center">
+      <b-row class="text-center pt-3">
         <b-col cols="12"> Játékosok beállítása </b-col>
       </b-row>
-      <b-row align-v="center">
-        <b-col>
+      <b-row align-h="center">
+        <b-col cols="4">
           <eh-input
             style="width: fit-content; margin: auto"
             label="Játékosok száma"
+            description="A játékosok száma minimum 2, maximum 10 lehet. Egy jelet egyszere csak egy játékos választhat! "
+            :required="true"
             type="number"
-            :min="0"
+            :min="2"
             :max="10"
+            :value="playerNumber"
             @change="setPlayersNumber"
           />
         </b-col>
@@ -75,7 +87,16 @@
           cols="12"
           md="4"
         >
-          <b-form-select class="m-2" v-model="players[index]">
+          <b-form-select
+            class="m-2"
+            v-model="players[index]"
+            :state="
+              player != null &&
+              !players.some(
+                (x) => x == players[index] && players.indexOf(x) != index
+              )
+            "
+          >
             <b-form-select-option :value="null">
               -- Válasszon amőba jelet --
             </b-form-select-option>
@@ -92,14 +113,23 @@
           </b-form-select>
         </b-col>
       </b-row>
+
       <b-row>
         <b-col>
-          <b-button @click="startTheGame">Kezdés!</b-button>
+          <b-button
+            :disabled="formIsInvalidToStartTheGame"
+            @click="startTheGame"
+          >
+            Kezdés!
+          </b-button>
         </b-col>
       </b-row>
     </b-container>
-    <div v-else>
-      <b-button @click="restartGame">Játék újrakezdés</b-button>
+    <div v-else style="text-align: center">
+      <b-button @click="openSettings">
+        <b-icon icon="gear-fill" />
+        Játék beállításai
+      </b-button>
     </div>
   </div>
 </template>
@@ -108,16 +138,41 @@ export default {
   name: "GameSetting",
   data() {
     return {
-      players: [],
-      gameIsRun: false,
+      players: null,
+      settingIsOpen: true,
       xAxisLength: null,
       yAxisLength: null,
       markPieces: null,
+      playerNumber: null,
     };
+  },
+  computed: {
+    formIsInvalidToStartTheGame() {
+      return (
+        this.players == null ||
+        (this.players != null && this.players.length < 2) ||
+        (this.players != null &&
+          this.players.length > 1 &&
+          (this.players.some((x) => x == null) ||
+            this.players.some((x, xIndex) =>
+              this.players.some((y, yIndex) => y == x && xIndex != yIndex)
+            ))) ||
+        this.markPieces == null ||
+        this.xAxisLength == null ||
+        this.yAxisLength <= this.markPieces ||
+        this.yAxisLength == null ||
+        this.yAxisLength <= this.markPieces
+      );
+    },
   },
   methods: {
     // set players mark
     setPlayersNumber(personNum) {
+      this.playerNumber = personNum;
+      if (personNum == null || personNum < 2) {
+        this.players = null;
+        return;
+      }
       // check if the players is null
       if (this.players == null) {
         // create a number of person length array with null
@@ -149,16 +204,19 @@ export default {
         Players: this.players,
       });
 
-      this.gameIsRun = true;
+      this.settingIsOpen = false;
     },
-    // reset the game setting data
-    restartGame() {
-      this.xAxisLength = null;
-      this.yAxisLength = null;
-      this.markPieces = null;
-      this.gameIsRun = false;
+    // open settings
+    openSettings() {
+      if (
+        confirm(
+          "A játék beállításának módosításával új játék fog indulni. Folytatja?"
+        )
+      ) {
+        this.settingIsOpen = true;
 
-      this.$emit("Restart");
+        this.$emit("Restart");
+      }
     },
   },
 };
