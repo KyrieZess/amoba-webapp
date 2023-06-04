@@ -1,5 +1,6 @@
 @import './component.css';
 @import './game-table.css';
+@import './login.css';
 
 :root{
     --eh-input-border-size: 3px;

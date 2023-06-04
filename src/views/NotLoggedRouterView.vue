@@ -1,5 +1,3 @@
 <template>
-  <div>
-    <router-view name="notLoggedView" />
-  </div>
+  <router-view name="notLoggedView" />
 </template>
