@@ -7,8 +7,6 @@ import About from '../views/About.vue'
 import LoggedRouterView from '../views/LoggedRouterView.vue'
 import NotLoggedRouterView from '../views/NotLoggedRouterView.vue'
 
-import { AuthLogic } from '../logic/auth'
-
 Vue.use(VueRouter)
 
 const routes = [
@@ -48,19 +46,5 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes: routes
 })
-
-router.beforeEach((to, from, next) => {
-  const tokenIsValid = AuthLogic.TokenIsValid();
-
-  console.log(from.name)
-  console.log(to.name)
-  console.log(tokenIsValid)
-
-  if (!tokenIsValid && to.name != "Login" && from.name != null) {
-    next("login");
-  } else if (tokenIsValid || from.name == null) {
-    next()
-  }
-});
 
 export default router
