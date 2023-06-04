@@ -23,18 +23,21 @@
     <datalist v-if="list" id="colorList">
       <option v-for="color in list" :key="color" :value="color"></option>
     </datalist>
-    <div class="eh-base-input-desc-error-box" :style="errorStyle">
+    <div class="eh-base-input-desc-error-box">
       <div v-if="description" class="eh-base-input-description">
         <div v-html="description"></div>
       </div>
-      <div v-if="!state && error" class="eh-base-input-error-text">
+      <div
+        v-if="!state && error"
+        class="eh-base-input-error-text"
+        :style="errorStyle"
+      >
         {{ error }}
       </div>
     </div>
   </div>
 </template>
 <script>
-//import moment from "moment";
 export default {
   name: "eh-input",
   model: {
@@ -70,7 +73,7 @@ export default {
   },
   watch: {
     tempValue(input) {
-      if (input == null) {
+      if (input == null || input == "") {
         this.$emit("change", null);
       } else if (this.type == "number" || this.type == "range") {
         this.$emit("change", Number.parseFloat(input));
