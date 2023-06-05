@@ -12,7 +12,7 @@ Ezután console terminálban be kell lépni a program könyvtárába és npm i (
 
 ## Bejelentkezés
 
-A bejelentkezéshez egy dummy authentication API (https://dummyjson.com/docs/auth) került bekötésre, aminek a segtségével tényleges token kerül lekérdezésre a szerverről. A tokent eltároljuk a localStorage-ba egy érvényességi idővel. Az alábbi táblázatban található felhasználók adataival lehet bejelentkezni, hibás adatok megadása esetén egyszerű hiba üzenet jelenik meg. A bejelentkező adatok mellett, be lehet állítani tesztelés céllal egy érvényességi időt, aminek a lejárata után a rendszer visszadob a Login oldalra.
+A bejelentkezéshez egy dummy authentication API (https://dummyjson.com/docs/auth) került bekötésre, aminek a segtségével tényleges token kerül lekérdezésre a szerverről. A tokent eltároljuk a localStorage-ba egy érvényességi idővel. Az alábbi táblázatban található felhasználók adataival lehet bejelentkezni, hibás adatok megadása esetén egyszerű hiba üzenet jelenik meg. A bejelentkező adatok mellett, be lehet állítani tesztelés céllal egy érvényességi időt, aminek a lejárata után a rendszer visszadob a Login oldalra. (Az ellenőrzés egyelőre az oldal újra töltésével történik meg, de rá köthető API hívásokra, egyéb műveletekre.)
 
 |Felhasználónév|Jelszó| |Felhasználónév|Jelszó |
 |-|-|-|-|-|
