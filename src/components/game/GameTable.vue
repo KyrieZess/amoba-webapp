@@ -4,7 +4,7 @@
       <b-row>
         <b-col>
           <b-button
-            v-b-tooltip.hover="'Nagyítás'"
+            v-b-tooltip.hover="$t('GameTable.ZoomIn')"
             @click="zoomIn"
             size="sm"
             variant="info"
@@ -16,7 +16,7 @@
           <b-button
             @click="reset"
             size="sm"
-            v-b-tooltip.hover="'Méret visszaállítása alapértelmezett helyzetbe'"
+            v-b-tooltip.hover="$t('GameTable.ZoomReset')"
           >
             <b-icon icon="arrow-counterclockwise" />
           </b-button>
@@ -27,7 +27,7 @@
             @click="zoomOut"
             size="sm"
             variant="info"
-            v-b-tooltip.hover="'Kicsinyítés'"
+            v-b-tooltip.hover="$t('GameTable.ZoomOut')"
           >
             <b-icon icon="zoom-out" />
           </b-button>

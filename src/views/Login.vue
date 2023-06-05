@@ -3,21 +3,25 @@
     <b-container>
       <b-row>
         <b-col cols="12">
-          <eh-input label="Felhasználónév" v-model="username" />
-        </b-col>
-        <b-col cols="12">
-          <eh-input label="Jelszó" type="password" v-model="password" />
+          <eh-input :label="$t('Login.Username')" v-model="username" />
         </b-col>
         <b-col cols="12">
           <eh-input
-            label="Token érvényesség"
+            :label="$t('Login.Password')"
+            type="password"
+            v-model="password"
+          />
+        </b-col>
+        <b-col cols="12">
+          <eh-input
+            :label="$t('Login.TokenValidTo')"
             v-model="tokenValidTo"
             type="datetime-local"
           />
         </b-col>
         <b-col cols="12">
           <b-button class="login-button" @click="login">
-            Bejelentkezés
+            {{ $t("Login.Login") }}
           </b-button>
         </b-col>
       </b-row>
@@ -34,7 +38,7 @@ export default {
     return {
       username: "atuny0",
       password: "9uQFF1Lh",
-      tokenValidTo: moment().add(5, "minutes").format("YYYY-MM-DDTHH:mm"),
+      tokenValidTo: moment().add(10, "minutes").format("YYYY-MM-DDTHH:mm"),
     };
   },
   methods: {
@@ -47,8 +51,8 @@ export default {
       if (isSuccess) {
         this.$router.push("/");
       } else {
-        this.$bvToast.toast("Rossz felhasználónév/jelszó lett megadva", {
-          title: "Sikertelen bejelentkezés",
+        this.$bvToast.toast(this.$t('Login.LoginErrorMsg'), {
+          title: this.$t('Login.LoginErrorTitle'),
           variant: "danger",
           solid: true,
         });

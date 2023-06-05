@@ -3,14 +3,14 @@
     <b-row>
       <b-col cols="12">
         <eh-input
-          label="Játékos neve"
+          :label="$t('PlayerSetting.PlayerName')"
           v-model="personName"
           @change="ChangedValue"
         />
       </b-col>
       <b-col cols="12">
         <eh-input
-          label="Játékos jelének a színe"
+          :label="$t('PlayerSetting.PlayerMarkColor')"
           v-model="markColor"
           type="color"
           @change="ChangedValue"
@@ -24,7 +24,7 @@
           @change="ChangedValue"
         >
           <b-form-select-option :value="null">
-            -- Válasszon amőba jelet --
+            {{ $t("PlayerSetting.SelectMark") }}
           </b-form-select-option>
           <b-form-select-option value="X"> X </b-form-select-option>
           <b-form-select-option value="Y"> Y </b-form-select-option>

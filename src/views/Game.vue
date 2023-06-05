@@ -8,14 +8,16 @@
     <div v-if="gameSetting != null" class="restart-game-button">
       <b-button variant="warning" @click="restartGame">
         <b-icon icon="arrow-clockwise" />
-        Játék újraindtása
+        {{ $t("Game.RestartGame") }}
       </b-button>
     </div>
     <div v-if="players != null && players.length > 0" class="player-turn">
-      Következő játékos:
+      {{ $t("Game.NextPlayer") }}:
       <b>
-        {{ players[turnPlayerIndex].PersonName }} nevű játékos (
-        {{ players[turnPlayerIndex].Mark }} )
+        {{
+          $t("Game.NamedPlayer", { name: players[turnPlayerIndex].PersonName })
+        }}
+        ( {{ players[turnPlayerIndex].Mark }} )
       </b>
     </div>
     <GameTable

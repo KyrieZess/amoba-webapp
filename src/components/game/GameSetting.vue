@@ -2,13 +2,13 @@
   <div>
     <b-container v-if="settingIsOpen">
       <b-row class="text-center">
-        <b-col cols="12"> Pálya beállításai </b-col>
+        <b-col cols="12"> {{ $t("GameSetting.TableSettings") }} </b-col>
       </b-row>
       <b-row>
         <b-col cols="12" md="4">
           <eh-input
             id="table-x-size"
-            label="Pálya szélessége"
+            :label="$t('GameSetting.TableWidth')"
             :required="true"
             v-model="yAxisLength"
             type="number"
@@ -17,16 +17,16 @@
               yAxisLength == 0 ||
               yAxisLength >= markPieces
             "
-            error="A pálya túl kicsi ahhoz, hogy a nyertes darabszámú jel elférjen. Adjon meg nagyobb tábla méretet vagy állítson kisebb nyertes darabszámot."
+            :error="$t('GameSetting.TableSizeError')"
             :min="5"
             :max="100"
-            description="A mező minimum 5, maximum 100 értéket vehet fel"
+            :description="$t('GameSetting.TableSizeDescription')"
           />
         </b-col>
         <b-col cols="12" md="4">
           <eh-input
             id="table-y-size"
-            label="Pálya magassága"
+            :label="$t('GameSetting.TableHeight')"
             :required="true"
             v-model="xAxisLength"
             type="number"
@@ -35,16 +35,16 @@
               xAxisLength == 0 ||
               xAxisLength >= markPieces
             "
-            error="A pálya túl kicsi ahhoz, hogy a nyertes darabszámú jel elférjen. Adjon meg nagyobb tábla méretet vagy állítson kisebb nyertes darabszámot."
+            :error="$t('GameSetting.TableSizeError')"
             :min="5"
             :max="100"
-            description="A mező minimum 5, maximum 100 értéket vehet fel"
+            :description="$t('GameSetting.TableSizeDescription')"
           />
         </b-col>
         <b-col cols="12" md="4">
           <eh-input
             id="winner-mark-pieces"
-            label="Nyertes darabszám"
+            :label="$t('GameSetting.WinnerMarkCount')"
             :required="true"
             v-model="markPieces"
             type="number"
@@ -55,22 +55,22 @@
               yAxisLength == 0 ||
               (xAxisLength >= markPieces && yAxisLength >= markPieces)
             "
-            error="A nyertes darabszám túl sok, ahhoz hogy a pályán elférjen! Adjon meg kisebb nyertes darabszámot vagy a pályát állítsa nagyobbra."
+            :error="$t('GameSetting.WinnerMarkCountError')"
             :min="3"
             :max="50"
-            description="A mező minimum 3, maximum 50 értéket vehet fel"
+            :description="$t('GameSetting.WinnerMarkCountDescription')"
           />
         </b-col>
       </b-row>
       <b-row class="text-center pt-3">
-        <b-col cols="12"> Játékosok beállítása </b-col>
+        <b-col cols="12"> {{ $t("GameSetting.PlayersSettings") }} </b-col>
       </b-row>
       <b-row align-h="center">
         <b-col cols="4">
           <eh-input
             style="width: fit-content; margin: auto"
-            label="Játékosok száma"
-            description="A játékosok száma minimum 2, maximum 10 lehet. Egy jelet egyszere csak egy játékos választhat! "
+            :label="$t('GameSetting.PlayersNumber')"
+            :description="$t('GameSetting.PlayersNumberDescription')"
             :required="true"
             type="number"
             :min="2"
@@ -100,7 +100,7 @@
             :disabled="formIsInvalidToStartTheGame"
             @click="startTheGame"
           >
-            Kezdés!
+            {{ $t("GameSetting.StartTheGame") }}
           </b-button>
         </b-col>
       </b-row>
@@ -108,7 +108,7 @@
     <div v-else style="text-align: center">
       <b-button @click="openSettings">
         <b-icon icon="gear-fill" />
-        Játék beállításai
+        {{ $t("GameSetting.GameSettings") }}
       </b-button>
     </div>
   </div>
@@ -193,11 +193,7 @@ export default {
     },
     // open settings
     openSettings() {
-      if (
-        confirm(
-          "A játék beállításának módosításával új játék fog indulni. Folytatja?"
-        )
-      ) {
+      if (confirm(this.$t("GameSetting.ModifyGameSettingsConfirmMsg"))) {
         this.settingIsOpen = true;
 
         this.$emit("Restart");
