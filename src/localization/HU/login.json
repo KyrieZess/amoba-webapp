@@ -1,0 +1,8 @@
+{
+    "Username": "Felhasználónév",
+    "Password": "Jelszó",
+    "TokenValidTo": "Token érvényessége",
+    "Login": "Bejelentkezés",
+    "LoginErrorTitle": "Sikertelen bejelentkezés",
+    "LoginErrorMsg": "Rossz felhasználónév/jelszó lett megadva"
+}

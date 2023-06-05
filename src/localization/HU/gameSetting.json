@@ -1,0 +1,16 @@
+{
+    "TableSettings": "Pálya beállításai",
+    "TableWidth": "Pálya szélessége",
+    "TableHeight": "Pálya magassága",
+    "TableSizeError": "A pálya túl kicsi ahhoz, hogy a nyertes darabszámú jel elférjen. Adjon meg nagyobb tábla méretet vagy állítson kisebb nyertes darabszámot.",
+    "TableSizeDescription": "A mező minimum 5, maximum 100 értéket vehet fel",
+    "WinnerMarkCount": "Nyertes darabszám",
+    "WinnerMarkCountError": "A nyertes darabszám túl sok, ahhoz hogy a pályán elférjen! Adjon meg kisebb nyertes darabszámot vagy a pályát állítsa nagyobbra.",
+    "WinnerMarkCountDescription": "A mező minimum 3, maximum 50 értéket vehet fel",
+    "PlayersSettings": "Játékosok beállítása",
+    "PlayersNumber": "Játékosok száma",
+    "PlayersNumberDescription": "A játékosok száma minimum 2, maximum 10 lehet. Egy jelet egyszere csak egy játékos választhat!",
+    "StartTheGame": "Kezdés!",
+    "GameSettings": "Játék beállításai",
+    "ModifyGameSettingsConfirmMsg": "A játék beállításának módosításával új játék fog indulni. Folytatja?"
+}

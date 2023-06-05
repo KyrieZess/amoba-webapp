@@ -1,0 +1,9 @@
+{
+    "PlayerWon":"Győzött a {name} nevű játékos",
+    "FirstPlayer":"1. helyezett: {name} nevű játékos",
+    "SecondPlayer":"2. helyezett: {name} nevű játékos",
+    "ThirdPlayer":"3. helyezett: {name} nevű játékos",
+    "OtherWinnerPlayer":"{place}. helyezett: {name} nevű játékos",
+    "RestartGame":"Játék újrakezdése",
+    "GameContinuous":"Játék folytatása"
+}
