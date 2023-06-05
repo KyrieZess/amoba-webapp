@@ -103,14 +103,5 @@ export default {
       return temp;
     },
   },
-  mounted() {
-    if (this.value == null) {
-      this.$emit("change", null);
-    } else if (this.type == "number" || this.type == "range") {
-      this.$emit("change", Number.parseFloat(this.value));
-    } else {
-      this.$emit("change", this.value);
-    }
-  },
 };
 </script>
