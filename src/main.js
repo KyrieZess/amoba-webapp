@@ -6,7 +6,7 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 
 Vue.config.productionTip = false
 
-//---------------- BOOTSTRAP----------------
+//---------------- BOOTSTRAP ----------------
 // Import Bootstrap and BootstrapVue CSS files (order is important)
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
@@ -16,6 +16,14 @@ Vue.use(BootstrapVue)
 // Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin)
 
+//-------------- LOCALIZATION -----------------
+import VueI18n from 'vue-i18n'
+
+Vue.use(VueI18n)
+
+//-------------- GLOBAL USE -------------------
+// import localization
+import i18n from "./localization";
 // Import styles
 import './styles/index.css'
 // Import BaseComponents
@@ -27,5 +35,6 @@ Vue.prototype.$baseUrl = "https://dummyjson.com/"
 
 new Vue({
   router,
+  i18n,
   render: function (h) { return h(App) }
 }).$mount('#app')
