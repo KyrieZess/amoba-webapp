@@ -38,7 +38,7 @@
               @click="$emit('SelectSquare', { x: xIndex, y: yIndex })"
             >
               <div class="game-mark">
-                {{ x }}
+                {{ x.Mark }}
               </div>
             </div>
           </td>

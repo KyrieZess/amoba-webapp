@@ -14,7 +14,8 @@
     <div v-if="players != null && players.length > 0" class="player-turn">
       Következő játékos:
       <b>
-        {{ turnPlayerIndex + 1 }}. játékos ( {{ players[turnPlayerIndex] }} )
+        {{ players[turnPlayerIndex].PersonName }} nevű játékos (
+        {{ players[turnPlayerIndex].Mark }} )
       </b>
     </div>
     <GameTable
@@ -97,10 +98,15 @@ export default {
     },
     selectSquare(coordinates) {
       // check if the field is empty
-      if (this.playersSteps[coordinates.y][coordinates.x] === "") {
+      if (
+        this.playersSteps[coordinates.y][coordinates.x] === "" ||
+        this.playersSteps[coordinates.y][coordinates.x] == null
+      ) {
         //add the mark to the empty field
-        this.playersSteps[coordinates.y][coordinates.x] =
-          this.players[this.turnPlayerIndex];
+        this.playersSteps[coordinates.y][coordinates.x] = {
+          Mark: this.players[this.turnPlayerIndex].Mark,
+          Color: this.players[this.turnPlayerIndex].MarkColor,
+        };
         //refresh the ui
         this.$refs.gameTable.refreshTable();
         //check if the user won with this step
@@ -192,11 +198,11 @@ export default {
     },
     checkMarksCoordinates(marksCoordinatesList) {
       // get the current player mark
-      const currentPlayerMark = this.players[this.turnPlayerIndex];
+      const currentPlayerMark = this.players[this.turnPlayerIndex].Mark;
 
       // get the first current player's mark in the line
       var firstMarkIndex = marksCoordinatesList.findIndex(
-        (x) => x === currentPlayerMark
+        (x) => x.Mark === currentPlayerMark
       );
 
       // if the first mark index is less than 5 and greater or equal to 0
@@ -212,7 +218,7 @@ export default {
         // check if these fields every elements are the same current player's mark
         if (
           playerMarks.length === this.winnerMarkPieces &&
-          playerMarks.every((x) => x === currentPlayerMark)
+          playerMarks.every((x) => x.Mark === currentPlayerMark)
         ) {
           this.onWinner(currentPlayerMark);
           return true;
@@ -228,7 +234,7 @@ export default {
           this.skippedPlayersIndex = [];
         }
         this.skippedPlayersIndex.push(
-          this.players.findIndex((x) => x == winner)
+          this.players.findIndex((x) => x.Mark == winner)
         );
       }
     },

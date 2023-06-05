@@ -2,6 +2,7 @@
   <b-modal
     v-if="Visible && PlayersCount > 0"
     v-model="Visible"
+    size="md"
     hide-footer
     hide-header
     no-close-on-backdrop
@@ -12,8 +13,8 @@
         style="padding: 10px"
       >
         <h1>
-          Győzött a {{ TurnPlayerIndex + 1 }}. játékos (
-          {{ WinnerPlayerMark }} )
+          Győzött a {{ Players[TurnPlayerIndex].PersonName }} nevű játékos (
+          {{ Players[TurnPlayerIndex].Mark }} )
         </h1>
       </div>
       <div v-else-if="SkippedPlayersCount > 0">
@@ -21,13 +22,13 @@
           v-for="(playerIndex, index) in SkippedPlayers"
           :key="'player' + playerIndex"
         >
-          <h2 v-if="SkippedPlayersCount == index + 1">
-            {{ index + 1 }}. helyezett: {{ playerIndex + 1 }}. játékos (
-            {{ Players[playerIndex] }} )
+          <h2 v-if="index == TurnPlayerIndex">
+            {{ index + 1 }}. helyezett: {{ Players[playerIndex].PersonName }} nevű játékos (
+            {{ Players[playerIndex].Mark }} )
           </h2>
           <h3 v-else>
-            {{ index + 1 }}. helyezett: {{ playerIndex + 1 }}. játékos (
-            {{ Players[playerIndex] }} )
+            {{ index + 1 }}. helyezett: {{ Players[playerIndex].PersonName }} nevű játékos (
+            {{ Players[playerIndex].Mark }} )
           </h3>
         </div>
       </div>

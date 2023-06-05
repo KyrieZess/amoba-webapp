@@ -87,30 +87,10 @@
           cols="12"
           md="4"
         >
-          <b-form-select
-            class="m-2"
+          <PlayerSetting
             v-model="players[index]"
-            :state="
-              player != null &&
-              !players.some(
-                (x) => x == players[index] && players.indexOf(x) != index
-              )
-            "
-          >
-            <b-form-select-option :value="null">
-              -- Válasszon amőba jelet --
-            </b-form-select-option>
-            <b-form-select-option value="X"> X </b-form-select-option>
-            <b-form-select-option value="Y"> Y </b-form-select-option>
-            <b-form-select-option value="O"> O </b-form-select-option>
-            <b-form-select-option value="Z"> Z </b-form-select-option>
-            <b-form-select-option value="Z1"> Z1 </b-form-select-option>
-            <b-form-select-option value="Z2"> Z2 </b-form-select-option>
-            <b-form-select-option value="Z3"> Z3 </b-form-select-option>
-            <b-form-select-option value="Z4"> Z4 </b-form-select-option>
-            <b-form-select-option value="Z5"> Z5 </b-form-select-option>
-            <b-form-select-option value="Z6"> Z6 </b-form-select-option>
-          </b-form-select>
+            :SelectedMarks="getSelectedMarks(index)"
+          />
         </b-col>
       </b-row>
 
@@ -134,7 +114,10 @@
   </div>
 </template>
 <script>
+import PlayerSetting from "./PlayerSetting.vue";
+
 export default {
+  components: { PlayerSetting },
   name: "GameSetting",
   data() {
     return {
@@ -153,19 +136,21 @@ export default {
         (this.players != null && this.players.length < 2) ||
         (this.players != null &&
           this.players.length > 1 &&
-          (this.players.some((x) => x == null) ||
-            this.players.some((x, xIndex) =>
-              this.players.some((y, yIndex) => y == x && xIndex != yIndex)
-            ))) ||
+          this.players.some((x) => x == null)) ||
         this.markPieces == null ||
         this.xAxisLength == null ||
-        this.yAxisLength <= this.markPieces ||
+        this.yAxisLength < this.markPieces ||
         this.yAxisLength == null ||
-        this.yAxisLength <= this.markPieces
+        this.yAxisLength < this.markPieces
       );
     },
   },
   methods: {
+    getSelectedMarks(currentIndex) {
+      const temp = JSON.parse(JSON.stringify(this.players));
+      temp.splice(currentIndex, 1);
+      return temp.map((x) => (x != null ? x.Mark : null));
+    },
     // set players mark
     setPlayersNumber(personNum) {
       this.playerNumber = personNum;
