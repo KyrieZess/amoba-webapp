@@ -1,9 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Home from '../views/Home.vue'
+import Game from '../views/Game.vue'
 import Login from '../views/Login.vue'
-import About from '../views/About.vue'
 import LoggedRouterView from '../views/LoggedRouterView.vue'
 import NotLoggedRouterView from '../views/NotLoggedRouterView.vue'
 
@@ -17,13 +16,8 @@ const routes = [
     children: [
       {
         path: '/',
-        name: 'Home',
-        components: { loggedView: Home },
-      },
-      {
-        path: '/about',
-        name: 'About',
-        components: { loggedView: About },
+        name: 'Game',
+        components: { loggedView: Game },
       },
     ]
   },
