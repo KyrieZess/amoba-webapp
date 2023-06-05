@@ -56,31 +56,48 @@ export default {
     };
   },
   methods: {
+    // game continuos with the next player
     gameContinuous() {
+      // add the next player
       this.turnPlayerIndex = this.setNextPlayer(this.turnPlayerIndex + 1);
+      // close the winner modal
       this.showWinnerModal = false;
     },
+    // start the game
     startTheGame(setting) {
+      // set the setting for the game and the new game
       this.gameSetting = setting;
+      // start the game
       this.startGame();
     },
+    // restart the game
     restartGame() {
+      // close the winner modal
       this.showWinnerModal = false;
+      // set the next player index to the first (0 index)
       this.turnPlayerIndex = 0;
+      // clear the skipped (winner) player list
       this.skippedPlayersIndex = null;
+      // start the game
       this.startGame();
     },
+    // start the game
     startGame() {
+      // set the players
       this.players = this.gameSetting.Players;
+      // set the winner mark number
       this.winnerMarkPieces = this.gameSetting.WinnerMarkPieces;
+      // load the game table
       this.loadTheTable(this.gameSetting.TableSize);
     },
+    // clear all of th game settings
     clearGameTable() {
       this.players = null;
       this.playersSteps = null;
       this.winnerMarkPieces = null;
       this.gameSetting = null;
     },
+    // load the game table
     loadTheTable(tableSize) {
       // create x axis line
       let xArray = new Array(tableSize.y);
@@ -119,6 +136,7 @@ export default {
         this.turnPlayerIndex = this.setNextPlayer(this.turnPlayerIndex + 1);
       }
     },
+    // set the next player
     setNextPlayer(index) {
       if (index >= this.players.length) {
         // step the first if the previous player was the last
@@ -129,20 +147,22 @@ export default {
         this.skippedPlayersIndex != null &&
         this.skippedPlayersIndex.includes(index)
       ) {
+        // step the next if the player already won
         index = this.setNextPlayer(index + 1);
       }
-
+      // return with the next player index
       return index;
     },
+    // check if the user will win with this selected place
     checkWinner(x, y) {
       var leftUpDiagonal = [];
       var xCross = [];
       var leftDownDiagonal = [];
       var yCross = [];
-
+      // set the first mark place indexes
       var xIndex = -1 * (this.winnerMarkPieces - 1);
       var yIndex = -1 * (this.winnerMarkPieces - 1);
-
+      // set the table size
       const xTableLength = this.playersSteps[0].length - 1;
       const yTableLength = this.playersSteps.length - 1;
 
@@ -226,13 +246,16 @@ export default {
       }
       return false;
     },
+    // set the winner, and add the index to the skipped players indexes list
     onWinner(winner) {
       this.showWinnerModal = true;
       this.winnerPlayer = winner;
       if (this.players.length > 2) {
+        // if the players number more than 2, they can play until just one left
         if (this.skippedPlayersIndex == null) {
           this.skippedPlayersIndex = [];
         }
+        // the current winner index add to the skipped players indexes list
         this.skippedPlayersIndex.push(
           this.players.findIndex((x) => x.Mark == winner)
         );
