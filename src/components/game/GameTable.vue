@@ -3,7 +3,8 @@
     <b-container id="zoom-button">
       <b-row>
         <b-col>
-          <b-button v-b-tooltip.hover="'Nagyítás'"
+          <b-button
+            v-b-tooltip.hover="'Nagyítás'"
             @click="zoomIn"
             size="sm"
             variant="info"
@@ -12,7 +13,11 @@
           </b-button>
         </b-col>
         <b-col>
-          <b-button @click="reset" size="sm" v-b-tooltip.hover="'Méret visszaállítása alapértelmezett helyzetbe'">
+          <b-button
+            @click="reset"
+            size="sm"
+            v-b-tooltip.hover="'Méret visszaállítása alapértelmezett helyzetbe'"
+          >
             <b-icon icon="arrow-counterclockwise" />
           </b-button>
         </b-col>
@@ -35,9 +40,13 @@
           <td v-for="(x, xIndex) in y" :key="'x-' + xIndex">
             <div
               class="square"
+              :style="'width:' + fieldSize + 'px;height:' + fieldSize + 'px;'"
               @click="$emit('SelectSquare', { x: xIndex, y: yIndex })"
             >
-              <div class="game-mark">
+              <div
+                class="game-mark"
+                :style="'color:' + x.Color + ';font-size:' + fontSize + 'px;'"
+              >
                 {{ x.Mark }}
               </div>
             </div>
@@ -65,33 +74,16 @@ export default {
     reset() {
       this.fieldSize = 50;
       this.fontSize = 30;
-      this.setTableFieldSize(this.fieldSize, this.fontSize);
     },
     // zoom in with fix 10px
     zoomIn() {
       this.fieldSize += 10;
       this.fontSize += 10;
-      this.setTableFieldSize(this.fieldSize, this.fontSize);
     },
     // zoom out with fix 10px
     zoomOut() {
       this.fieldSize -= 10;
       this.fontSize -= 10;
-      this.setTableFieldSize(this.fieldSize, this.fontSize);
-    },
-    // set the new size to the table squares
-    setTableFieldSize(fieldSize, fontSize) {
-      // get the elements with square class name
-      const squareElements = document.getElementsByClassName("square");
-
-      for (let i = 0; i < squareElements.length; i++) {
-        const element = squareElements[i];
-        // set the new size to the current element
-        element.style.width = fieldSize + "px";
-        element.style.height = fieldSize + "px";
-
-        element.firstChild.style.fontSize = fontSize + "px";
-      }
     },
     // force refresh the table
     refreshTable() {
